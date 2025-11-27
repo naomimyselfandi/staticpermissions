@@ -181,3 +181,15 @@ converted using Spring's `ConversionService`. If the source and intent types are
 known ahead of time, an appropriately typed `IntentFactory` can be autowired;
 the autowiring fails if the source type is not valid for the intent type,
 providing quick feedback.
+
+## Web Support
+
+The `ConversionService` and `ObjectMapper` integrations allow web applications
+to receive simple intent objects as controller method arguments. In more complex
+cases, creating an intent object may require information from multiple parts of
+the request. For example, a `PATCH` endpoint may receive the ID of the entity to
+patch as a path variable and receive the content as the request body. Spring Web
+does not support this natively. This library offers a `MergedIntent` annotation
+for these cases, which can merge path variables, request parameters, header and
+cookie values, and/or the request body into a single intent object.
+

@@ -1,14 +1,12 @@
 package io.github.naomimyselfandi.staticpermissions;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
 
 import java.util.ArrayList;
 
-@EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class StaticPermissions implements ImportSelector {
 
@@ -24,7 +22,9 @@ class StaticPermissions implements ImportSelector {
         try {
             classLoader.loadClass("com.fasterxml.jackson.databind.ObjectMapper");
             result.add("io.github.naomimyselfandi.staticpermissions.jackson.StaticPermissionJacksonConfiguration");
-        } catch (Throwable ignored) {}
+            classLoader.loadClass("org.springframework.web.servlet.config.annotation.WebMvcConfigurer");
+            result.add("io.github.naomimyselfandi.staticpermissions.web.StaticPermissionWebConfiguration");
+        } catch (ClassNotFoundException ignored) {}
         return result.toArray(String[]::new);
     }
 
